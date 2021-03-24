@@ -8,7 +8,7 @@ const forecast = (latitude, longitude, callback) => {
     longitude +
     "&units=f";
 
-  request({ url: url, json: true }, (error, { body }) => {
+  request({ url, json: true }, (error, { body }) => {
     if (error) {
       callback("Unable to connect to weather service!", undefined);
     } else if (body.error) {
@@ -16,12 +16,19 @@ const forecast = (latitude, longitude, callback) => {
     } else {
       callback(
         undefined,
-        body.current.weather_descriptions[0] +
-          " throughout the day. It is currently " +
+        "Since " +
+          body.current.observation_time +
+          " " +
+          "it was " +
+          body.current.weather_descriptions[0] +
+          ". The humidity was " +
+          body.current.humidity +
+          "ρv " +
+          " and it is currently " +
           body.current.temperature +
-          " degrees out. There is a " +
+          " degrees out. There is a  " +
           body.current.feelslike +
-          " % chance of rain."
+          "% chance of rain."
       );
     }
   });
